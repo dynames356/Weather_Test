@@ -30,6 +30,7 @@ public class FragmentItemList extends Fragment {
 
     }
 
+    // You know you can just pass the List<Forecast> object instead of String object. why make your life so difficult. T.T
     public FragmentItemList newInstance(String foreCast){
         FragmentItemList fragmentItemList = new FragmentItemList();
         this.forecast = foreCast;
@@ -46,6 +47,7 @@ public class FragmentItemList extends Fragment {
         try {
             JSONArray forecastArray = new JSONArray(forecast);
 
+            // OH MY GOD, you can do this before or during you call the newInstance function.
             for (int i = 0; i < forecastArray.length(); i++) {
                 JSONObject forcastItem = forecastArray.getJSONObject(i);
                 Forecast forecast1 = new Forecast();
@@ -61,6 +63,9 @@ public class FragmentItemList extends Fragment {
             recyclerView.setDrawingCacheEnabled(true);
             recyclerView.setDrawingCacheQuality(View.DRAWING_CACHE_QUALITY_HIGH);
             recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+            
+            // If a variable is not used on other function, please use localised variable instead.
+            // for example, instead of below, you can simply MyItemRecyclerViewAdapter myForecastAdapter = new MyItemRecyclerViewAdapter(this, myItem, itemListener);
             myForecastAdapter = new MyItemRecyclerViewAdapter(this, myItem, itemListener);
             recyclerView.setAdapter(myForecastAdapter);
         } catch (JSONException e) {
