@@ -14,6 +14,8 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
     private List<Forecast> mValues;
     private ItemClickListener itemClickListener;
 
+    // If you don't use mContext, please remove it. It's unnecessary. T.T
+    // I noticed you have empty files, remove it if you don't use it.
     public MyItemRecyclerViewAdapter(FragmentItemList context, List<Forecast> items, ItemClickListener itemClickListener ) {
         this.mContext = context;
         this.mValues = items;
@@ -41,6 +43,9 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
         holder.item_layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // Instead of passing position, you can just pass the mvalues.get(position)
+                // otherwise, you still have to do the JSONArray.get something something.
+                // Please don't make your life miserable.
                 itemClickListener.onTransferPosition(position);
             }
         });
@@ -55,6 +60,8 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
         private TextView tv_forecastdate;
         private TextView tv_forecasttemp;
         private TextView tv_forecasttext;
+        // There are cases when you just want part of your item list clickable, however in this case it's the whole item list that's clickable.
+        // So please use View instead of LinearLayout, granted they make no difference, however you are importing the LinearLayout Library. Which is also a waste of resources.
         private LinearLayout item_layout;
 
         public ViewHolder(View view) {
