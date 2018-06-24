@@ -47,6 +47,10 @@ public class MainActivity extends AppCompatActivity implements  MyItemRecyclerVi
                         @Override
                         public void onResponse(JSONObject response) {
                             try {
+                                // Sometimes creating more variables can make your application slow. Try to minimize the creation of new variable if possible.
+                                // However, do note that you have to balance between readability and the refactoring of your code.
+                                // For example below, you can simply get the channel directly using response.getJSONObject("query").getJSONObject("results").getJSONObject("channel");
+                                // Also please give meaninful variable name, you're not the only one who read the code. T.T
                                 JSONObject jsonObject= response.getJSONObject("query");
 
                                 JSONObject results = jsonObject.getJSONObject("results");
@@ -68,11 +72,15 @@ public class MainActivity extends AppCompatActivity implements  MyItemRecyclerVi
                                 tv_conditionWeather.setText(text);
 
                                 forecast = item.getJSONArray("forecast");
-
+                                
+                                // Why you need a bundle??
                                 Bundle bundle = new Bundle();
                                 bundle.putString("forecast", forecast.toString());
                                 FragmentItemList fragmentItemList = new FragmentItemList();
+                                // Dear Jia Ping, instead of passing a string, you can just simply pass the JSONArray into the newInstance or better yet create the List<Forecast> myItem here.
+                                // Why you want to make your life so miserable. T.T
                                 fragmentItemList.newInstance(forecast.toString());
+                                // Why you ADD FRAGMENT instead of REPLACE!?? FML, I'll explain to you at the Office.
                                 FragmentTransaction fragmentTransaction= getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, fragmentItemList,null);
                                 fragmentTransaction.commit();
 
@@ -100,6 +108,7 @@ public class MainActivity extends AppCompatActivity implements  MyItemRecyclerVi
         tv_conditionTemp.setText("");
         tv_conditionWeather.setText("");
         try {
+            // You know, instead of using getJSONObject, why not when you get the JSONArray, you convert it to List<Forecast> myItem instead.
             forcastItem = forecast.getJSONObject(position);
             int temp = Integer.parseInt(forcastItem.getString("low"))+ Integer.parseInt(forcastItem.getString("high"));
             tv_codition.setText(forcastItem.getString("date")  + ", " + forcastItem.getString("day"));
